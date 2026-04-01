@@ -13,6 +13,12 @@ export function useTimer() {
     setIsRunning(true);
   }, [isRunning]);
 
+  const pause = useCallback(() => {
+    if (!isRunning) return;
+    accumulatedRef.current += Math.floor((Date.now() - startTimeRef.current) / 1000);
+    setIsRunning(false);
+  }, [isRunning]);
+
   const stop = useCallback(() => {
     if (!isRunning) return;
     accumulatedRef.current += Math.floor((Date.now() - startTimeRef.current) / 1000);
@@ -39,5 +45,5 @@ export function useTimer() {
     return () => clearInterval(intervalRef.current);
   }, [isRunning]);
 
-  return { elapsed, isRunning, start, stop, reset };
+  return { elapsed, isRunning, start, pause, stop, reset };
 }

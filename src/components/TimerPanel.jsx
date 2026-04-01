@@ -1,12 +1,9 @@
-import { useState, useRef } from 'react';
-import { Play, Square, RotateCcw } from 'lucide-react';
-import { useTimer } from '../hooks/useTimer';
+import { useRef } from 'react';
+import { Play, Pause, Square, RotateCcw } from 'lucide-react';
 import { formatTime } from '../utils';
 
-export default function TimerPanel({ onSessionComplete }) {
-  const [task, setTask] = useState('');
-  const [activeTask, setActiveTask] = useState('');
-  const { elapsed, isRunning, start, stop, reset } = useTimer();
+export default function TimerPanel({ onSessionComplete, timerState, task, setTask, activeTask, setActiveTask }) {
+  const { elapsed, isRunning, start, pause, stop, reset } = timerState;
   const inputRef = useRef(null);
 
   const handleStart = () => {
@@ -26,6 +23,10 @@ export default function TimerPanel({ onSessionComplete }) {
     reset();
     setTask('');
     setActiveTask('');
+  };
+
+  const handlePause = () => {
+    pause();
   };
 
   const handleReset = () => {
@@ -111,12 +112,21 @@ export default function TimerPanel({ onSessionComplete }) {
             )}
           </>
         ) : (
-          <button className="btn-stop" onClick={handleStop}>
-            <span className="flex items-center gap-2">
-              <Square size={13} strokeWidth={3} fill="currentColor" />
-              Stop & Save
-            </span>
-          </button>
+          <>
+            <button
+              className="p-3 text-[#00ff87] hover:text-[#00ff87]/80 transition-colors"
+              onClick={handlePause}
+              title="Pause"
+            >
+              <Pause size={16} strokeWidth={2.5} fill="currentColor" />
+            </button>
+            <button className="btn-stop" onClick={handleStop}>
+              <span className="flex items-center gap-2">
+                <Square size={13} strokeWidth={3} fill="currentColor" />
+                Stop & Save
+              </span>
+            </button>
+          </>
         )}
       </div>
 

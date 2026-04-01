@@ -5,6 +5,7 @@ import FocusChart from './components/FocusChart';
 import SessionHistory from './components/SessionHistory';
 import SessionComplete from './components/SessionComplete';
 import { useHistory } from './hooks/useHistory';
+import { useTimer } from './hooks/useTimer';
 
 const TABS = [
   { id: 'timer', label: 'Focus', icon: Timer },
@@ -15,7 +16,10 @@ const TABS = [
 export default function App() {
   const [tab, setTab] = useState('timer');
   const [lastSession, setLastSession] = useState(null);
+  const [task, setTask] = useState('');
+  const [activeTask, setActiveTask] = useState('');
   const { history, addSession, clearHistory, deleteSession } = useHistory();
+  const timerState = useTimer();
 
   const handleSessionComplete = (task, duration) => {
     const session = addSession(task, duration);
@@ -58,7 +62,14 @@ export default function App() {
         </div>
 
         {tab === 'timer' && (
-          <TimerPanel onSessionComplete={handleSessionComplete} />
+          <TimerPanel 
+            onSessionComplete={handleSessionComplete} 
+            timerState={timerState}
+            task={task}
+            setTask={setTask}
+            activeTask={activeTask}
+            setActiveTask={setActiveTask}
+          />
         )}
 
         {tab === 'chart' && (
