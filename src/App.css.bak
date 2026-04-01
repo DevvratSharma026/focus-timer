@@ -1,0 +1,7 @@
+/* ARCHIVED: Old template code - no longer used
+All component styles are in:
+- src/index.css (global styles, animations, button styles)
+- Tailwind CSS inline classes (in component JSX)
+
+This file is kept for reference only.
+*/
